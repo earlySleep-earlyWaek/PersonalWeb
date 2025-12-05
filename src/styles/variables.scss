@@ -1,0 +1,33 @@
+$primary: #42b983;
+$font-size-base: 16px;
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+.text {
+  display: flex;
+  gap: 10px;
+  transition: 0.1s;
+  &:hover {
+    color: aqua;
+  }
+}
