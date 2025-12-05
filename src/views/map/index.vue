@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full">
+  <div class="h-full w-100vw">
     <div class="h-[calc(100%-250px)] flex">
       <div class="w-255px h-full">
         <MapTreeSelect />
@@ -19,6 +19,7 @@ import MapTreeSelect from './MapTreeSelect.vue'
 import ToolArea from './ToolArea.vue'
 import { localConfig } from '@/localStorage/config'
 import { ElMessage } from 'element-plus'
+import { systemConfig } from '../config/config'
 
 const config = reactive({
   option: {
@@ -61,7 +62,7 @@ const Map = reactive({
     try {
       // 等待加载，高兼容：优先使用返回值，否则从 window 读取
       const loaded = await AMapLoader.load({
-        key: '92763ffc318f9285187b93a3490a8268',
+        key: systemConfig.gis.key,
         version: '2.0',
         plugins: ['AMap.Scale'],
       })
@@ -89,7 +90,12 @@ watch(localConfig, () => {
   TileLayer.optionChange()
 })
 
-onMounted(() => {
-  Map.init()
+onMounted(async () => {
+  await nextTick()
+  if (systemConfig.gis.key) {
+    Map.init()
+  } else {
+    ElMessage.error('请先去设置中配置高德地图key')
+  }
 })
 </script>
