@@ -19,6 +19,7 @@
           <template #default>
             <!-- 弹出框选择器 左边   -->
             <GameCenterPopover v-if="item.label === '游戏中心'" />
+            <MatchPopover v-if="item.label === '赛事'" />
           </template>
         </el-popover>
       </div>
@@ -66,6 +67,7 @@ import MomentsPopover from './handerPopovers/MomentsPopover.vue'
 import CollectPopover from './handerPopovers/CollectPopover.vue'
 import HistoryPopover from './handerPopovers/HistoryPopover.vue'
 import GameCenterPopover from './handerPopovers/GameCenterPopover.vue'
+import MatchPopover from './handerPopovers/MatchPopover.vue'
 </script>
 
 <style lang="scss" scoped>
