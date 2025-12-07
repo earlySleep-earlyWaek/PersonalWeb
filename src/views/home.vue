@@ -39,7 +39,7 @@ const config = reactive({
         break
       }
       case 'fun': {
-        router.push('/home/fun')
+        router.push('/home/fun/welcome')
         break
       }
       case 'test': {

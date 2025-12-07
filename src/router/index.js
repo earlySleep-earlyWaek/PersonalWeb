@@ -32,6 +32,18 @@ const router = createRouter({
           path: 'fun',
           name: 'Fun',
           component: () => import('@/views/fun/index.vue'),
+          children: [
+            {
+              path: 'welcome',
+              name: 'FunWelcome',
+              component: () => import('@/views/fun/welcome.vue'),
+            },
+            {
+              path: 'big-small',
+              name: 'BigSmall',
+              component: () => import('@/views/fun/bigEatSmall/index.vue'),
+            },
+          ],
         },
         {
           path: 'test',
