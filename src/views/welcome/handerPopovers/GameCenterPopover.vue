@@ -5,7 +5,7 @@
     <div ref="leftRef" class="left">
       <el-image class="w-full !h-120px" fit="cover" src="/images/a.png" />
       <div class="w-full flex gap-10px">
-        <div ref="leftBottomItem" v-for="item in 3" class="w-33%">
+        <div ref="leftBottomItem" v-for="item in 3" class="w-33% h-full">
           <el-image src="/images/a.png" />
           <div>
             {{ '游戏一号游戏一号'.slice(0, 5) }}
@@ -15,28 +15,20 @@
     </div>
     <div class="line"></div>
     <div class="right">
-      <div class="font-size-18px h-30px bg-red">新游预告</div>
+      <div class="font-size-18px h-30px">新游预告</div>
       <a>
-        <div v-for="item in 7" class="w-full" :style="`height:${rightHeight}px`">游戏</div>
+        <div v-for="item in 7" class="w-full h-30px">游戏</div>
       </a>
     </div>
   </div>
 </template>
 
 <script setup>
-import { nextTick, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
-const leftBottomItem = ref(null)
-const leftRef = ref()
 const height = ref()
-const rightHeight = ref()
 
-onMounted(async () => {
-  height.value = leftBottomItem.value.clientWidth + 'px'
-  setTimeout(() => {
-    rightHeight.value = (leftRef.value.clientHeight - 30) / 7
-  }, 100)
-})
+onMounted(async () => {})
 </script>
 
 <style lang="scss" scoped>
@@ -49,15 +41,9 @@ onMounted(async () => {
 }
 .left {
   width: 200px;
-
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-
-  .el-image {
-    width: 100%;
-    height: v-bind(height);
-  }
 }
 .line {
   border-right: 1px solid #88888850;
