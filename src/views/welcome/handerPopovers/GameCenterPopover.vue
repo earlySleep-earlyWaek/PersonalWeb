@@ -17,7 +17,7 @@
     <div class="right">
       <div class="font-size-18px h-30px">新游预告</div>
       <a>
-        <div v-for="item in 7" class="w-full h-30px">游戏</div>
+        <div v-for="item in 7" class="gameText">游戏</div>
       </a>
     </div>
   </div>
@@ -53,5 +53,16 @@ onMounted(async () => {})
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 0px;
+}
+.gameText {
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 4px;
+  width: 100%;
+  height: 30px;
+
+  &:hover {
+    background: #88888850;
+  }
 }
 </style>
