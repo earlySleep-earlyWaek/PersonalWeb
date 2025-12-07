@@ -7,6 +7,10 @@ $font-size-base: 16px;
   align-items: center;
 }
 
+:root {
+  --font-title: 18px;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -30,4 +34,8 @@ a:active {
   &:hover {
     color: aqua;
   }
+}
+
+.el-image {
+  border-radius: 8px;
 }
