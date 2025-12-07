@@ -2,11 +2,13 @@ const img = '/images/a.png'
 
 export const MatchPopoverData = {
   hotMatch: [
+    // 热门赛事
     { label: '打西边来了只喇叭', url: '#' },
     { label: '打东边来了个哑巴', url: '#' },
-    { label: '......', url: '#' },
+    { label: '哑巴打了喇叭', url: '#' },
   ],
   advance: [
+    // 赛事预告
     { label: '打西边来了只喇叭', url: '#' },
     { label: '打东边来了个哑巴', url: '#' },
     { label: '......', url: '#' },
