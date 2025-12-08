@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="h-50px">
+    <div class="topBar">
       <el-button @click="handleGameStart()">开始</el-button>
     </div>
     <div ref="PlayAreaRef" class="main">
@@ -50,5 +50,17 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   cursor: pointer;
+}
+.topBar {
+  // h-50px bg-#888 flex items-center
+  box-sizing: border-box;
+  height: 50px;
+  padding: 5px;
+
+  display: flex;
+  align-items: center;
+
+  background-color: #00000010;
+  border-bottom: 3px #88888850 solid;
 }
 </style>
