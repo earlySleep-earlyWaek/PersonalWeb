@@ -17,9 +17,6 @@ import Config from '@/views/config/index.vue'
 // 引入Unocss
 import 'virtual:uno.css'
 
-// 引入指令集
-import { insFunDir } from './views/fun/bigEatSmall/config'
-
 const app = createApp(App)
 
 app.use(createPinia())
@@ -34,7 +31,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.component('Welcome', Welcome)
 app.component('MapView', Map)
 app.component('ConfigView', Config)
-
-insFunDir(app)
 
 app.mount('#app')
