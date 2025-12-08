@@ -1,4 +1,4 @@
-import { player } from './player/config'
+import { player } from './player/config.ts'
 
 const directives = { player }
 

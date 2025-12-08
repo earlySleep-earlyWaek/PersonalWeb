@@ -1,41 +1,44 @@
-import { ElMessage } from 'element-plus'
-
 export const player = {
   mounted(el: HTMLElement, binding) {
-    el.style.position = 'relative' // 推荐relative，不脱离文档流
-    const speed = 10 // 速度
+    // 缓存元素尺寸（若元素尺寸动态变化，需监听resize/尺寸变化事件重新计算）
+    let elWidth = el.clientWidth
+    let elHeight = el.clientHeight
 
-    let currentTransform = el.style.transform || 'translate(0, 0)'
+    // 节流函数：限制执行频率
+    let throttleTimer: number | null = null
+    const handleMouseMove = (e: MouseEvent) => {
+      if (throttleTimer) return
 
-    const handleKeyDown = (e) => {
-      currentTransform = el.style.transform
-      const key = e.key
-      switch (key) {
-        case 'w':
-        case 'W': {
-          el.style.transform = `${currentTransform} translateY(-${speed}px)`
-          break
-        }
-        case 's':
-        case 'S': {
-          el.style.transform = `${currentTransform} translateY(+${speed}px)`
-          break
-        }
+      // 与浏览器重绘帧同步执行DOM操作
+      throttleTimer = requestAnimationFrame(() => {
+        try {
+          const OFFSET_X = 250
+          const OFFSET_Y = 37
+          const X = e.clientX - OFFSET_X - elWidth / 2
+          const Y = e.clientY - OFFSET_Y - elHeight / 2
 
-        case 'a':
-        case 'A': {
-          el.style.transform = `${currentTransform} translateX(-${speed}px)`
-          break
+          el.style.transform = `translate(${X}px, ${Y}px)`
+        } finally {
+          throttleTimer = null
         }
-        case 'd':
-        case 'D': {
-          el.style.transform = `${currentTransform} translateX(+${speed}px)`
-
-          break
-        }
-      }
+      })
     }
 
-    window.addEventListener('keypress', handleKeyDown)
+    // 缓存事件处理函数到元素上，便于卸载时移除
+    ;(el as any)._mouseMoveHandler = handleMouseMove
+    // window.addEventListener('mousemove', handleMouseMove)
+  },
+  unmounted(el: HTMLElement) {
+    // 移除鼠标移动监听
+    const handleMouseMove = (el as any)._mouseMoveHandler
+    if (handleMouseMove) {
+      window.removeEventListener('mousemove', handleMouseMove)
+      delete (el as any)._mouseMoveHandler
+    }
+
+    // 取消未执行的动画帧
+    if ((el as any)._throttleTimer) {
+      cancelAnimationFrame((el as any)._throttleTimer)
+    }
   },
 }
