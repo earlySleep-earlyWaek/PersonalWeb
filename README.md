@@ -1,7 +1,3 @@
-# 个人练手项目
-
-## 基础信息
-
 💚Bili山寨版💚  
 介绍:尝试对哔哩哔哩进行复刻,目前计划复刻首页以及视频详情页  
 <img width="1857" height="966" alt="9459e9cc-816d-4967-b98b-d248d9c126ce" src="https://github.com/user-attachments/assets/81efabfb-0e83-41b2-8b01-be60fe6d1781" />  
