@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main bg-coolGray">
     <div class="topBar">注:个人练手项目 除了尝试复刻一些网站以外 也会写一些巩固技术的小项目</div>
     <div class="showArea">
       <div>
@@ -20,13 +20,15 @@
 
   .topBar {
     width: 100%;
-    background-color: #00000050;
+    background-color: #00000020;
 
     display: flex;
     align-items: center;
 
     box-sizing: border-box;
     padding: 5px;
+
+    box-shadow: 0 5px 5px 0px black;
   }
 
   .showArea {
@@ -35,8 +37,6 @@
 
     justify-content: center;
     align-items: center;
-
-    background-color: bisque;
   }
 }
 </style>

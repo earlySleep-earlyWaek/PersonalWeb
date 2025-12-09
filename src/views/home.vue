@@ -2,10 +2,10 @@
   <div class="w-1600px h-100vh fixed left-0 top-0">
     <el-tabs v-model="config.activeTab" @click="config.go()" type="card">
       <el-tab-pane name="welcome" label="欢迎" />
+      <el-tab-pane name="fun" label="小创意" />
       <el-tab-pane name="bilibili" label="Bili山寨版(开发中)" />
       <el-tab-pane name="map" label="地图(暂停)" />
       <el-tab-pane name="echarts" label="数据统计(预设)" />
-      <el-tab-pane name="fun" label="小创意" />
       <el-tab-pane name="test" label="组件测试" />
       <el-tab-pane name="config" label="设置" />
     </el-tabs>
