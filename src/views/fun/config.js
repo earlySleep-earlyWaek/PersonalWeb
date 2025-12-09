@@ -12,6 +12,10 @@ export const FunConfig = {
       label: '组件大战DIV',
       url: '#',
     },
+    {
+      label: '打DIV(打地鼠)',
+      url: '#',
+    },
   ],
 }
 
