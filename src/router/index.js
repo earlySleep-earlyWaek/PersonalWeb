@@ -19,6 +19,11 @@ const router = createRouter({
           component: () => import('@/views/welcome/index.vue'),
         },
         {
+          path: 'bilibili',
+          name: 'Bilibili',
+          component: () => import('@/views/bilibili/index.vue'),
+        },
+        {
           path: 'map',
           name: 'Map',
           component: () => import('@/views/map/index.vue'),
