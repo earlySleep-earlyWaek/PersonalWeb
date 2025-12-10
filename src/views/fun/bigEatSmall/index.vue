@@ -70,6 +70,8 @@ onUnmounted(() => {})
   width: 100%;
   height: 100%;
   cursor: none;
+
+  box-shadow: inset 5px 5px 5px black;
 }
 .topBar {
   box-sizing: border-box;
@@ -83,5 +85,6 @@ onUnmounted(() => {})
 
   background-color: #00000010;
   border-bottom: 2px #888888 solid;
+  box-shadow: 0 5px 5px black;
 }
 </style>

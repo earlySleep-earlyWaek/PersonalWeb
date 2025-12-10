@@ -65,5 +65,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  box-shadow: 0px 5px 2px black;
 }
 </style>

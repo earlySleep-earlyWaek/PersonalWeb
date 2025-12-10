@@ -13,7 +13,7 @@
       <div class="load"></div>
 
       <div class="w-full flex justify-center mt-30px">
-        <router-link to="/home/bilibili">
+        <router-link to="/home/welcome">
           <el-button class="start" link type="primary" :disabled="config.start">点击进入</el-button>
         </router-link>
       </div>
