@@ -147,20 +147,21 @@ onMounted(() => {
 
   time.value = config.time
   speed.value = config.speed
-  gameRef.value.style.transition = 'box-shadow  0.1s'
 })
 
-watch([speed, starting], () => {
+watch(starting, () => {
   if (starting.value) {
-    if (speed.value > 900) {
-      gameRef.value.style.boxShadow = 'inset 0 0 50px rgba(0, 255, 0, 0.5)'
-    } else if (speed.value > 750) {
-      gameRef.value.style.boxShadow = 'inset 0 0 50px rgba(255, 255, 0, 0.5)'
-    } else if (speed.value == 500) {
-      gameRef.value.style.boxShadow = 'inset 0 0 50px rgba(255, 0, 0, 0.5)'
-    }
+    gameRef.value.style.boxShadow = 'inset 0 0 50px rgba(0, 255, 0, 0.5)'
   } else {
     gameRef.value.style.boxShadow = 'inset 0 0 50px rgba(0, 0, 0, 0.5)'
+  }
+})
+
+watch(time, () => {
+  if (time.value == 30) {
+    gameRef.value.style.boxShadow = 'inset 0 0 50px rgba(255, 255, 0, 0.5)'
+  } else if (time.value == 10) {
+    gameRef.value.style.boxShadow = 'inset 0 0 50px rgba(255, 0, 0, 0.5)'
   }
 })
 </script>
@@ -180,6 +181,10 @@ watch([speed, starting], () => {
   .gamePlace {
     position: relative;
     flex: 1;
+
+    transition: 1s;
+
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -195,5 +200,7 @@ watch([speed, starting], () => {
 
   background-color: #00000010;
   border-bottom: 2px #888888 solid;
+
+  box-shadow: 0 5px 5px black;
 }
 </style>
