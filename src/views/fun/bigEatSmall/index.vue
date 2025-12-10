@@ -13,7 +13,7 @@
       </div>
     </div>
     <div ref="PlayAreaRef" class="main">
-      <FunPlayer class="z-100" />
+      <FunPlayer :width="200" class="z-100" />
       <FunEnemy class="z-10" :width="item.width" v-for="item in enemyList" />
     </div>
   </div>
@@ -23,7 +23,7 @@
 import FunPlayer from './player/FunPlayer.vue'
 import FunEnemy from './enemy/FunEnemy.vue'
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
-import { funPlayArea } from '../config'
+import { funPlayArea } from './config'
 
 const config = reactive({
   starting: false,
@@ -69,7 +69,7 @@ onUnmounted(() => {})
 .main {
   width: 100%;
   height: 100%;
-  cursor: none;
+  // cursor: none;
 
   box-shadow: inset 5px 5px 5px black;
 }
