@@ -18,6 +18,12 @@
 注:添加了圆圈大小以及生成速度的保底数值.  
 <img width="1608" height="923" alt="ad04448c-cdfe-46a6-848c-dd3077277bfd" src="https://github.com/user-attachments/assets/02fd6448-21b1-4271-9efb-8c384f38b356" />  
 
+### DIV吃div  
+'DIV吃div'介绍  
+吃掉比自己数字小的div  
+<img width="1604" height="923" alt="63ff34ac-ff4b-4131-893f-f0445fada9b1" src="https://github.com/user-attachments/assets/73ed1920-1376-4abc-a020-769565aea569" />  
+
+
 # Bili山寨版  
 介绍:尝试对哔哩哔哩进行复刻,目前计划复刻首页以及视频详情页  
 ✅首页前端基础框架  
