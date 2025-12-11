@@ -9,7 +9,7 @@
 ---  
   
 # 小创意  
- 描述:进行一些娱乐项目开发,目前已经开发的娱乐项目包括'点点点!',正在开发'大组件吃小组件',后续准备开发'组件大战DIV','打DIV'.  
+ 描述:进行一些娱乐项目开发,目前已经开发的娱乐项目包括'点点点!',正在开发'Div杀手',后续准备开发'组件大战DIV','打DIV'.  
   
 ## 点点点  
 '点点点'介绍:  
@@ -18,8 +18,8 @@
 注:添加了圆圈大小以及生成速度的保底数值.  
 <img width="1608" height="923" alt="ad04448c-cdfe-46a6-848c-dd3077277bfd" src="https://github.com/user-attachments/assets/02fd6448-21b1-4271-9efb-8c384f38b356" />  
 
-### DIV吃div  
-'DIV吃div'介绍  
+### Div杀手  
+'Div杀手'介绍  
 吃掉比自己数字小的div  
 <img width="1604" height="923" alt="63ff34ac-ff4b-4131-893f-f0445fada9b1" src="https://github.com/user-attachments/assets/73ed1920-1376-4abc-a020-769565aea569" />  
 
