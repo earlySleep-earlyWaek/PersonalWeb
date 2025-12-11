@@ -5,7 +5,7 @@ export const FunConfig = {
       url: 'clicker',
     },
     {
-      label: 'DIV吃div',
+      label: 'Div杀手',
       url: 'big-small',
     },
     {
@@ -18,4 +18,3 @@ export const FunConfig = {
     },
   ],
 }
-
