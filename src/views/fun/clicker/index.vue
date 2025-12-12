@@ -17,12 +17,7 @@
           placeholder="游戏时长"
         />
         <span>最小面积:</span>
-        <el-input
-          :disabled="starting"
-          class="w-60px"
-          v-model="config.minSize"
-          placeholder="游戏时长"
-        />
+        <el-input :disabled="starting" class="w-60px" v-model="minSize" placeholder="游戏时长" />
       </div>
       <div class="w-33% flex justify-center gap-10px">
         <el-tag size="large" type="success">得分:{{ Math.floor(point) }}</el-tag>
@@ -70,7 +65,6 @@ import FunCircle from './components/FunCircle.vue'
 const config = reactive({
   time: 60,
   speed: 1000,
-  minSize: 50,
   dia: false,
   rule: `左边是参数设置,中间是积分显示和计时器,右边是功能按钮\n开始游戏后,点击出现的〇`,
 })
@@ -82,6 +76,7 @@ const circleList = ref([])
 
 const speed = ref()
 let radious = 100
+const minSize = ref(50)
 const time = ref()
 const point = ref(0)
 
@@ -98,8 +93,10 @@ const addCircle = () => {
   setTimeout(() => {
     const x = Math.floor(Math.random() * (width.value - 100 * 2) + 100)
     const y = Math.floor(Math.random() * (height.value - 100 * 2) + 100)
-    const rad = Math.floor(Math.random() * 20 + radious + config.minSize)
-    const point = (2 - speed.value / 1000) * (200 - rad) * 0.1
+    const rad = Math.floor(Math.random() * radious) + Number(minSize.value)
+    const point = (2 - speed.value / 1000) * (radious + Number(minSize.value) - rad) * 0.1
+
+    console.log(point)
 
     circleList.value.push({
       x: x,
