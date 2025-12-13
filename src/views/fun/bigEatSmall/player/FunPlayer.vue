@@ -47,12 +47,18 @@ const handleMouseMove = (e) => {
   el.style.transform = `translate(${moveX}px, ${moveY}px)`
 }
 
+// const handleClick = (e) => {
+//   console.log([e.pageX, e.pageY])
+// }
+
 onMounted(() => {
   if (playArea.value) {
     size.value = DivKillerGetSize(props.width)
     DivKillerPlayer.size = props.width
     playAreaData.clientRect = playArea.value.getBoundingClientRect()
     window.addEventListener('mousemove', handleMouseMove)
+
+    // window.addEventListener('click', handleClick)
   }
 })
 

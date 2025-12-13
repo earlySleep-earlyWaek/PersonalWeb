@@ -22,7 +22,7 @@
         <el-tag size="large" type="warning">时间:{{ config.timer }}s</el-tag>
       </div>
       <div class="w-33% flex justify-end">
-        <el-button @click="config.ruleDia()" type="default"> 规则 </el-button>
+        <el-button @click="config.showRule()" type="default"> 规则 </el-button>
         <el-button :type="config.starting ? 'danger' : 'success'" @click="config.handleGameStart()">
           {{ config.starting ? '结束' : '开始' }}
         </el-button>
@@ -39,8 +39,19 @@
         :position="item.position"
         v-for="item in enemyList"
       />
+      <DivKillerBoss ref="BossRef" @gameover="config.handleGameOver()" />
     </div>
   </div>
+
+  <el-dialog v-model="config.ruleDia" width="450px" :show-close="false">
+    <div class="text-center font-600 c-green font-size-45px">规则</div>
+    <el-descriptions :column="1" :border="true">
+      <el-descriptions-item label="1.">不要吃比自己大的DIV</el-descriptions-item>
+      <el-descriptions-item label="2">绿色的是朋友,红色的是敌人</el-descriptions-item>
+      <el-descriptions-item label="3">吃掉一个符合要求的div,会获得5点积分</el-descriptions-item>
+      <el-descriptions-item label="4">以上有一个规则是假的 </el-descriptions-item>
+    </el-descriptions>
+  </el-dialog>
 
   <el-dialog v-model="config.pointDia" width="450px" :show-close="false">
     <div class="text-center font-600 c-red font-size-45px">游戏结束</div>
@@ -54,6 +65,9 @@ import FunPlayer from './player/FunPlayer.vue'
 import FunEnemy from './enemy/FunEnemy.vue'
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import { DivKiller, funPlayArea } from './config'
+import DivKillerBoss from './enemy/DivKillerBoss.vue'
+
+const BossRef = ref(null)
 
 const config = reactive({
   point: 0,
@@ -61,7 +75,8 @@ const config = reactive({
   pointDia: false,
   createSpeed: 300,
   timer: 0,
-  playerSize: 100,
+  playerSize: 80,
+  ruleDia: false,
 
   handleAte() {
     this.point += 5
@@ -69,26 +84,29 @@ const config = reactive({
   handleGameStart() {
     if (!this.starting) {
       this.point = 0
+      this.timer = 0
       this.starting = true
-      DivKiller.status = !DivKiller.status
+      DivKiller.status = true
+      BossRef.value.startMove()
       setTimeout(() => {
         this.Timer()
         addEnemy()
       }, 3000)
     } else {
       this.starting = false
-      DivKiller.status = !DivKiller.status
+      DivKiller.status = false
     }
   },
   handleGameOver() {
-    this.starting = !this.starting
+    this.starting = false
+    DivKiller.status = false
     this.showPointDia()
   },
   showPointDia() {
     this.pointDia = !this.pointDia
   },
-  ruleDia() {
-    this.showPointDia()
+  showRule() {
+    this.ruleDia = true
   },
   Timer() {
     this.timer += 1
@@ -103,12 +121,12 @@ const enemyList = ref([])
 
 const addEnemy = () => {
   const flag = Math.random()
-  let w = Math.floor(Math.random() * 50 + 75)
+  let w = Math.floor(Math.random() * config.playerSize + config.playerSize / 2)
   let p = 0
   let d = 0
 
   const positionY = Math.floor(
-    Math.random() * (funPlayArea.bottom - w * 0.75 * 0.5) + funPlayArea.top,
+    Math.random() * (funPlayArea.bottom - funPlayArea.top - w * 0.325) + funPlayArea.top,
   )
 
   if (flag < 0.5) {
@@ -137,7 +155,7 @@ onMounted(() => {
     funPlayArea.left = ClientRect.left
     funPlayArea.right = ClientRect.right
     funPlayArea.top = ClientRect.top
-    funPlayArea.bottom = window.screen.availHeight - 81
+    funPlayArea.bottom = window.screen.availHeight - 100
   }
 })
 

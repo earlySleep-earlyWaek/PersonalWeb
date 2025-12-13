@@ -105,6 +105,8 @@ const enemyMove = () => {
   }
 }
 
+
+
 onMounted(() => {
   if (props.direction == '右') {
     speed = 5
