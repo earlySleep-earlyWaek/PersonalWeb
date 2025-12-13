@@ -6,7 +6,11 @@ export const funPlayArea = {
   bottom: 0,
 }
 
-export const bsPlayer = {
+export const DivKiller = {
+  status: false,
+}
+
+export const DivKillerPlayer = {
   topLeft: [],
   topRight: [],
   bottomLeft: [],
@@ -14,13 +18,13 @@ export const bsPlayer = {
   size: 0,
 }
 
-export const bsGetSize = (width) => {
+export const DivKillerGetSize = (width) => {
   const size = Math.floor((width * (width * 0.75)) / 20)
   return size
 }
 
-export const collisionDet = (enemy) => {
-  const player = JSON.parse(JSON.stringify(bsPlayer))
+export const DivKillerCollisionDet = (enemy) => {
+  const player = JSON.parse(JSON.stringify(DivKillerPlayer))
 
   // 工具函数：从矩形四个顶点提取最小包围盒边界（兼容轴对齐场景）
   const getRectBounds = (rect) => {
@@ -56,10 +60,10 @@ export const collisionDet = (enemy) => {
   const isCollided = !isSeparated
 
   //   可选：打印调试信息（开发阶段可保留，上线后删除）
-  if (isCollided) {
-    console.log('玩家边界：', playerBounds)
-    console.log('敌人边界：', enemyBounds)
-  }
+  // if (isCollided) {
+  //   console.log('玩家边界：', playerBounds)
+  //   console.log('敌人边界：', enemyBounds)
+  // }
 
   return isCollided
 }

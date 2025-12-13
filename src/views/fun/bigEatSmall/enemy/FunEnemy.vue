@@ -1,12 +1,18 @@
 <template>
-  <div ref="enemyRef" class="enemy">
-    {{ size }}
+  <div ref="enemyRef" class="enemy font-900 font-size-25px">
+    {{ props.width }}
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { bsGetSize as bsGetSize, bsPlayer, collisionDet, funPlayArea } from '../config'
+import {
+  DivKillerGetSize as DivKillerGetSize,
+  DivKillerPlayer,
+  DivKillerCollisionDet,
+  funPlayArea,
+  DivKiller,
+} from '../config'
 
 const enemyRef = ref()
 
@@ -41,53 +47,61 @@ let offsetX = 0 // 偏移量
 let speed = 5 // 速度
 
 const enemyMove = () => {
-  // const X = coordinates[0] + offsetX - funPlayArea.left
-  const X = coordinates[0] + offsetX
-  const Y = props.position[1]
+  if (DivKiller.status) {
+    // const X = coordinates[0] + offsetX - funPlayArea.left
+    const X = coordinates[0] + offsetX
+    const Y = props.position[1]
 
-  const enemyDet = {
-    topLeft: [X, Y],
-    topRight: [X + props.width, Y],
-    bottomLeft: [X, Y + props.width * 0.75],
-    bottomRight: [X + props.width, Y + props.width * 0.75],
-  }
-
-  if (collisionDet(enemyDet)) {
-    if (size.value < bsPlayer.size) {
-      enemyRef.value.remove()
-      enemyRef.value = null
-      emits('ated')
-      return
-    } else {
-      emits('gameover')
-      return
+    const enemyDet = {
+      topLeft: [X, Y],
+      topRight: [X + props.width, Y],
+      bottomLeft: [X, Y + props.width * 0.75],
+      bottomRight: [X + props.width, Y + props.width * 0.75],
     }
-  }
 
-  if (props.direction == '右') {
-    if (X < funPlayArea.right + 150) {
-      enemyRef.value.style.left = `${X}px`
+    if (DivKillerCollisionDet(enemyDet)) {
+      if (props.width <= DivKillerPlayer.size) {
+        enemyRef.value.remove()
+        enemyRef.value = null
+        emits('ated')
+        return
+      } else {
+        DivKiller.status = false
+        enemyRef.value.remove()
+        enemyRef.value = null
+        emits('gameover')
+        return
+      }
+    }
 
-      offsetX += speed
-      setTimeout(() => {
-        enemyMove()
-      }, 20)
+    if (props.direction == '右') {
+      if (X < funPlayArea.right + 150) {
+        enemyRef.value.style.left = `${X}px`
+
+        offsetX += speed
+        setTimeout(() => {
+          enemyMove()
+        }, 20)
+      } else {
+        console.log('销毁')
+        enemyRef.value.remove()
+      }
     } else {
-      console.log('销毁')
-      enemyRef.value.remove()
+      if (X > funPlayArea.left - 150) {
+        enemyRef.value.style.left = `${X}px`
+
+        offsetX += speed
+        setTimeout(() => {
+          enemyMove()
+        }, 20)
+      } else {
+        console.log('销毁')
+        enemyRef.value.remove()
+      }
     }
   } else {
-    if (X > funPlayArea.left - 150) {
-      enemyRef.value.style.left = `${X}px`
-
-      offsetX += speed
-      setTimeout(() => {
-        enemyMove()
-      }, 20)
-    } else {
-      console.log('销毁')
-      enemyRef.value.remove()
-    }
+    enemyRef.value.remove()
+    enemyRef.value = null
   }
 }
 
@@ -101,7 +115,7 @@ onMounted(() => {
   if (enemyRef.value) {
     const enemy = enemyRef.value.getBoundingClientRect()
     coordinates = [enemy.left, enemy.top]
-    size.value = bsGetSize(props.width)
+    size.value = DivKillerGetSize(props.width)
     enemyMove()
   }
 })

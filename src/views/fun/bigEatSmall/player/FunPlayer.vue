@@ -1,14 +1,14 @@
 <template>
   <div ref="playArea" class="main">
     <div ref="player" class="player">
-      {{ size }}
+      {{ props.width }}
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, reactive, ref } from 'vue'
-import { bsGetSize, bsPlayer } from '../config'
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { DivKillerGetSize, DivKillerPlayer } from '../config'
 
 const props = defineProps({
   width: {
@@ -17,8 +17,9 @@ const props = defineProps({
   },
 })
 
-const width = props.width + 'px'
+const width = ref()
 const size = ref()
+width.value = props.width + 'px'
 
 const playArea = ref()
 const playAreaData = reactive({
@@ -38,24 +39,18 @@ const handleMouseMove = (e) => {
   X = X > playAreaData.clientRect.x ? X : 0
 
   // 保存玩家位置信息
-  bsPlayer.topLeft = [X, Y]
-  bsPlayer.topRight = [X + el.clientWidth, Y]
-  bsPlayer.bottomLeft = [X, Y + el.clientHeight]
-  bsPlayer.bottomRight = [X + el.clientWidth, Y + el.clientHeight]
+  DivKillerPlayer.topLeft = [X, Y]
+  DivKillerPlayer.topRight = [X + el.clientWidth, Y]
+  DivKillerPlayer.bottomLeft = [X, Y + el.clientHeight]
+  DivKillerPlayer.bottomRight = [X + el.clientWidth, Y + el.clientHeight]
 
   el.style.transform = `translate(${moveX}px, ${moveY}px)`
 }
 
-// window.addEventListener('click', (e) => {
-//   console.log([e.pageX, e.pageY])
-//   console.log(bsPlayer.topLeft)
-//   console.log(JSON.parse(JSON.stringify(bsPlayer)))
-// })
-
 onMounted(() => {
   if (playArea.value) {
-    size.value = bsGetSize(props.width)
-    bsPlayer.size = size.value
+    size.value = DivKillerGetSize(props.width)
+    DivKillerPlayer.size = props.width
     playAreaData.clientRect = playArea.value.getBoundingClientRect()
     window.addEventListener('mousemove', handleMouseMove)
   }
@@ -64,6 +59,14 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('mousemove', handleMouseMove)
 })
+
+watch(
+  () => props.width,
+  () => {
+    width.value = props.width + 'px'
+    DivKillerPlayer.size = props.width
+  },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -79,7 +82,10 @@ onUnmounted(() => {
   height: calc(var(--width-) * 0.75);
 
   background-color: green;
+
   color: white;
+  font-size: larger;
+  font-weight: 600;
 
   display: flex;
   justify-content: center;
