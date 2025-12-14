@@ -1,6 +1,6 @@
 <template>
   <div class="w-1600px h-100vh fixed left-0 top-0">
-    <el-tabs v-model="config.activeTab" @click="config.go()" type="card">
+    <el-tabs class="z-100" v-model="config.activeTab" @click="config.go()" type="card">
       <el-tab-pane name="welcome" label="欢迎" />
       <el-tab-pane name="fun" label="小创意" />
       <el-tab-pane name="chartRoom" label="聊天室(开发中)" />
@@ -37,7 +37,7 @@ const config = reactive({
         break
       }
       case 'chartRoom': {
-        router.push('/home/chart-room/message')
+        router.push('/home/chart-room-index')
         break
       }
       case 'map': {
