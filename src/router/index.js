@@ -24,6 +24,28 @@ const router = createRouter({
           component: () => import('@/views/bilibili/index.vue'),
         },
         {
+          path: 'chart-room',
+          name: 'ChartRoom',
+          component: () => import('@/views/chartRoom/index.vue'),
+          children: [
+            {
+              path: 'message',
+              name: 'Message',
+              component: () => import('@/views/chartRoom/chartRoom-message/index.vue'),
+            },
+            {
+              path: 'user',
+              name: 'User',
+              component: () => import('@/views/chartRoom/chartRoom-user/index.vue'),
+            },
+            {
+              path: 'setting',
+              name: 'Setting',
+              component: () => import('@/views/chartRoom/chartRoom-setting/index.vue'),
+            },
+          ],
+        },
+        {
           path: 'map',
           name: 'Map',
           component: () => import('@/views/map/index.vue'),
@@ -52,6 +74,11 @@ const router = createRouter({
               path: 'clicker',
               name: 'Clicker',
               component: () => import('@/views/fun/clicker/index.vue'),
+            },
+            {
+              path: 'breakfast',
+              name: 'Breakfast',
+              component: () => import('@/views/fun/breakfast/index.vue'),
             },
           ],
         },

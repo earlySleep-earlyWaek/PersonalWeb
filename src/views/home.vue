@@ -3,6 +3,7 @@
     <el-tabs v-model="config.activeTab" @click="config.go()" type="card">
       <el-tab-pane name="welcome" label="欢迎" />
       <el-tab-pane name="fun" label="小创意" />
+      <el-tab-pane name="chartRoom" label="聊天室(开发中)" />
       <el-tab-pane name="bilibili" label="Bili山寨版(开发中)" />
       <el-tab-pane name="map" label="地图(暂停)" />
       <el-tab-pane name="echarts" label="数据统计(预设)" />
@@ -10,7 +11,7 @@
       <el-tab-pane name="config" label="设置" />
     </el-tabs>
 
-    <div class="w-full h-full -mt-15px">
+    <div class="w-full h-[calc(100%-40px)] -mt-15px">
       <router-view />
     </div>
   </div>
@@ -33,6 +34,10 @@ const config = reactive({
       }
       case 'bilibili': {
         router.push('/home/bilibili')
+        break
+      }
+      case 'chartRoom': {
+        router.push('/home/chart-room/message')
         break
       }
       case 'map': {
