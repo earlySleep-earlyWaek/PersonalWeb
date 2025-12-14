@@ -166,7 +166,7 @@ watch(time, () => {
 <style lang="scss" scoped>
 .main {
   width: 100%;
-  height: calc(100% - 40px);
+  height: 100%;
 
   box-sizing: border-box;
 
