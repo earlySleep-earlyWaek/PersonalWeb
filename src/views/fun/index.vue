@@ -1,7 +1,6 @@
 <template>
   <div class="w-100vw h-full flex">
     <el-scrollbar class="scroll">
-      <!-- <a class="item" v-for="item in config.scrollList" :href="item.url">{{ item.label }}</a> -->
       <div
         class="item"
         v-for="item in config.scrollList"
