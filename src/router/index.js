@@ -24,9 +24,14 @@ const router = createRouter({
           component: () => import('@/views/bilibili/index.vue'),
         },
         {
+          path: 'chart-room-index',
+          name: 'ChartRoomIndex',
+          component: () => import('@/views/chartRoom/index.vue'),
+        },
+        {
           path: 'chart-room',
           name: 'ChartRoom',
-          component: () => import('@/views/chartRoom/index.vue'),
+          component: () => import('@/views/chartRoom/app.vue'),
           children: [
             {
               path: 'message',
