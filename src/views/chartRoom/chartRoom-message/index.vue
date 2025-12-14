@@ -8,6 +8,7 @@
         :style="config.activitedStyle(index)"
       >
         <el-avatar :size="50" :src="item.avatar" />
+
         <div class="flex-1 h-full">
           <div class="h-50% messageRoomTitle">
             {{ item.name }}
@@ -59,7 +60,7 @@
       </div>
       <div class="flex-1"></div>
       <div class="inputButton">
-        <el-button size="small" type="primary"> 发送</el-button>
+        <el-button @click="config.sendMessage()" size="small" type="primary"> 发送</el-button>
       </div>
     </div>
   </div>
@@ -69,6 +70,7 @@
 import { reactive } from 'vue'
 import { ChartRoomMessage } from '../config'
 import { Folder, Picture } from '@element-plus/icons-vue'
+import { ChartUserApi } from '@/api/chatroom/user'
 
 const config = reactive({
   activited: null,
@@ -77,6 +79,9 @@ const config = reactive({
   },
   activitedStyle(index) {
     return this.activited == index ? 'background:#ffffff30;' : ''
+  },
+  sendMessage() {
+    ChartUserApi.add()
   },
 })
 </script>
