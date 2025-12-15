@@ -27,28 +27,19 @@
           v-for="(item, index) in ChartRoomMessage.roomMessages"
           class="w-full h-fit flex gap-10px"
         >
-          <div v-if="item.name != ChartRoomMessage.userInfo.name" class="flex gap-10px">
-            <el-avatar class="mt-10px" :src="item.avatar" />
-            <div>
-              <div class="messageName">{{ item.name }}</div>
-              <div class="messageBubble">
-                {{ item.message }}
-              </div>
-            </div>
-          </div>
+          <ChartRightCard
+            v-if="item.name == ChartRoomMessage.userInfo.userName"
+            :user-name="item.name"
+            :avatar="item.avatar"
+            :message="item.message"
+          />
 
-          <div
-            v-if="item.name == ChartRoomMessage.userInfo.name"
-            class="w-full flex gap-10px justify-end"
-          >
-            <div>
-              <div class="messageName">{{ item.name }}</div>
-              <div class="messageBubble">
-                {{ item.message }}
-              </div>
-            </div>
-            <el-avatar class="mt-10px" :src="item.avatar" />
-          </div>
+          <ChartLeftCard
+            v-else-if="item.name != ChartRoomMessage.userInfo.userName"
+            :user-name="item.name"
+            :avatar="item.avatar"
+            :message="item.message"
+          />
         </div>
       </div>
     </el-scrollbar>
@@ -58,7 +49,9 @@
         <el-icon class="inputToolBarItem"><Picture /></el-icon>
         <el-icon class="inputToolBarItem"><Folder /></el-icon>
       </div>
-      <div class="flex-1"></div>
+      <div class="flex-1">
+        <textarea v-model="config.textarea" :autofocus="false" />
+      </div>
       <div class="inputButton">
         <el-button @click="config.sendMessage()" size="small" type="primary"> 发送</el-button>
       </div>
@@ -70,10 +63,13 @@
 import { reactive } from 'vue'
 import { ChartRoomMessage } from '../config'
 import { Folder, Picture } from '@element-plus/icons-vue'
-import { ChartUserApi } from '@/api/chatroom/user'
+import { ElMessage } from 'element-plus'
+import ChartLeftCard from './components/ChartLeftCard.vue'
+import ChartRightCard from './components/ChartRightCard.vue'
 
 const config = reactive({
   activited: null,
+  textarea: '',
   changeActivited(index) {
     this.activited = index
   },
@@ -81,7 +77,7 @@ const config = reactive({
     return this.activited == index ? 'background:#ffffff30;' : ''
   },
   sendMessage() {
-    ChartUserApi.add()
+    ElMessage.success(this.textarea)
   },
 })
 </script>
@@ -159,6 +155,7 @@ const config = reactive({
   display: flex;
   flex-direction: column;
 }
+
 .inputToolBar {
   display: flex;
   gap: 10px;
@@ -177,6 +174,25 @@ const config = reactive({
       color: #2bbbbb;
     }
   }
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+
+  background-color: transparent;
+
+  border: none;
+  padding: 10px;
+
+  font-size: 22px;
+  color: #fff;
+
+  resize: none;
+  outline: none; /* 取消聚焦时的默认轮廓 */
+  box-sizing: border-box;
+
+  font-family: 'SimHei', 'Microsoft YaHei', 'Heiti SC', '黑体', sans-serif;
 }
 
 .inputButton {

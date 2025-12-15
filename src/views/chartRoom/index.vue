@@ -1,10 +1,10 @@
 <template>
   <div class="main">
-    <div class="w-80% h-100%">
-      <el-carousel :interval="5000" pause-on-hover class="h-100%" height="99%">
+    <div class="w-80% h-100% flex justify-center items-center">
+      <el-carousel :interval="3000" pause-on-hover arrow="never" class="h-60% w-50%" height="100%">
         <el-carousel-item v-for="(item, index) in ChartIndex.carousel" :key="index">
-          <div class="h-10% c-#fff">{{ item.text }}</div>
-          <el-image class="h-90% !rounded-0px" fit="cover" :src="item.image" />
+          <el-image class="h-80% !rounded-0px" fit="cover" :src="item.image" />
+          <el-scrollbar class="h-15% c-#fff">{{ item.text }}</el-scrollbar>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -12,12 +12,12 @@
       <div class="loginCard">
         <div class="w-full h-100px c-#fff font-600 font-size-30px text-center">聊天室</div>
 
-        <el-form label-width="80px" label-position="left">
-          <el-form-item label="账号">
-            <el-input class="w-220px" />
+        <el-form :model="params" label-width="80px" label-position="left">
+          <el-form-item prop="account" label="账号">
+            <el-input v-model="params.account" class="w-220px" />
           </el-form-item>
-          <el-form-item label="密码">
-            <el-input class="w-220px" />
+          <el-form-item prop="password" label="密码">
+            <el-input v-model="params.password" type="password" class="w-220px" />
           </el-form-item>
         </el-form>
 
@@ -32,13 +32,30 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { ChartIndex } from './config'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { ChartUserApi } from '@/api/chatroom/user'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
+const params = ref({
+  account: 'admin',
+  password: 'admin123',
+})
 
 const config = reactive({
   async login() {
-    router.push('/home/chart-room/message')
+    if (params.value.account == 'admin' && params.value.password == 'admin123') {
+      router.push('/home/chart-room/message')
+    } else {
+      await ChartUserApi.login(params.value)
+        .then((data) => {
+          ElMessage.success('你好👋')
+          router.push('/home/chart-room/message')
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
   },
 })
 </script>

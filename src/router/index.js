@@ -81,6 +81,11 @@ const router = createRouter({
               component: () => import('@/views/fun/clicker/index.vue'),
             },
             {
+              path: 'rpg',
+              name: 'RPG',
+              component: () => import('@/views/fun/rpgGame/index.vue'),
+            },
+            {
               path: 'breakfast',
               name: 'Breakfast',
               component: () => import('@/views/fun/breakfast/index.vue'),

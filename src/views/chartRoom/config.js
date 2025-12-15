@@ -2,7 +2,7 @@ const image = '/images/logo.png'
 
 export const ChartRoomMessage = {
   userInfo: {
-    username: 'wang',
+    userName: 'wang',
     account: '',
     acatar: image,
   },

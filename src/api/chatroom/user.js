@@ -11,7 +11,9 @@ export const ChartUserApi = {
 
     console.log(req)
   },
-  async login() {
-    const params = {}
+  async login(params) {
+    const req = await Request.get('/user/login', params)
+
+    return req
   },
 }

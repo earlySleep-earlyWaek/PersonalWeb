@@ -9,6 +9,10 @@ export const FunConfig = {
       url: 'big-small',
     },
     // {
+    //   label: 'rpg',
+    //   url: 'rpg',
+    // },
+    // {
     //   label: '早餐店模拟器',
     //   url: 'breakfast',
     // },
