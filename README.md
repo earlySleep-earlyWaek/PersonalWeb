@@ -116,13 +116,10 @@ src/
     └── bilibili/ # B站仿制页面
 ```
 
-## 贡献
-
-欢迎提交 Issue 和 Pull Request 来改进项目。
-
 ## 许可证
 
-本项目仅供学习交流使用。
-=======
+# 本项目仅供学习交流使用。
+
 # 即时聊天(开发中)
+
 <img width="1847" height="920" alt="image" src="https://github.com/user-attachments/assets/e99a30c5-a329-49ac-99d0-c1560c6224a0" />
