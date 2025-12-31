@@ -1,6 +1,5 @@
 # 王某人个人练手项目
 
-<<<<<<< HEAD
 <div align="center">
   <img width="100" alt="logo" src="https://github.com/user-attachments/assets/0cc3cf0f-7a9c-4838-8499-bbd787de7033" />
   <p>一个基于 Vue 3 的个人项目集合，包含小游戏和仿 B 站界面</p>
@@ -127,5 +126,3 @@ src/
 =======
 # 即时聊天(开发中)
 <img width="1847" height="920" alt="image" src="https://github.com/user-attachments/assets/e99a30c5-a329-49ac-99d0-c1560c6224a0" />
-
->>>>>>> 86dacf30d2809c656df7def6ced0e443e3ef3b46
