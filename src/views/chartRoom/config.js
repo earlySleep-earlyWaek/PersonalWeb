@@ -41,7 +41,7 @@ export const ChartRoomMessage = {
   roomMessages: [
     {
       avatar: image,
-      name: 'wang',
+      name: 'wang_who',
       message: '你好👋',
     },
     {
@@ -56,7 +56,7 @@ export const ChartRoomMessage = {
     },
     {
       avatar: image,
-      name: 'wang',
+      name: 'wang_who',
       message: '🥰',
     },
   ],

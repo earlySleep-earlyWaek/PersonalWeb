@@ -1,4 +1,9 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import axios, {
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from 'axios'
 import { ElMessage } from 'element-plus'
 
 // 用于在拦截器中处理路由跳转
@@ -31,7 +36,7 @@ const service = axios.create({
 
 // 3. 取消请求控制器：用于取消重复请求
 const pendingRequests = new Map<string, AbortController>()
-const generateKey = (config: AxiosRequestConfig): string => {
+const generateKey = (config: InternalAxiosRequestConfig | AxiosRequestConfig): string => {
   return [
     config.method?.toLowerCase(),
     config.url,
@@ -44,7 +49,7 @@ const generateKey = (config: AxiosRequestConfig): string => {
 
 // 4. 请求拦截器：添加token、取消重复请求、请求头处理等
 service.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     // 取消重复请求
     const requestKey = generateKey(config)
     if (pendingRequests.has(requestKey)) {
@@ -78,7 +83,7 @@ service.interceptors.response.use(
   (response: AxiosResponse) => {
     // 清除已完成请求的取消标识
     if (response.config) {
-      const requestKey = generateKey(response.config)
+      const requestKey = generateKey(response.config as InternalAxiosRequestConfig)
       if (pendingRequests.has(requestKey)) {
         pendingRequests.delete(requestKey)
       }
@@ -100,7 +105,7 @@ service.interceptors.response.use(
   (error: AxiosError) => {
     // 清除失败请求的取消标识
     if (error.config) {
-      const requestKey = generateKey(error.config)
+      const requestKey = generateKey(error.config as InternalAxiosRequestConfig)
       if (pendingRequests.has(requestKey)) {
         pendingRequests.delete(requestKey)
       }

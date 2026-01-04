@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 flex-wrap">
-    <el-scrollbar class="w-full h-[calc(100%-300px)] bg-#303030" height="100%">
-      <div class="messageScroll">
+    <el-scrollbar>
+      <div class="h-[calc(100vh-300px)] pl-20px pr-20px">
         <div v-for="(item, index) in roomMessages" :key="index" class="w-full h-fit flex gap-10px">
           <ChartRightCard
             v-if="item.name === currentUser"
@@ -36,8 +36,6 @@
 </template>
 
 <script setup>
-// import { ChartRightCard, ChartLeftCard } from './components'
-
 import { Picture, Folder } from '@element-plus/icons-vue'
 import ChartRightCard from './ChartRightCard.vue'
 import ChartLeftCard from './ChartLeftCard.vue'

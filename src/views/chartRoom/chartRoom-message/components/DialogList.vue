@@ -39,7 +39,7 @@ const props = defineProps({
 })
 
 // 定义 emits
-const emits = defineEmits(['itemClick'])
+const emits = defineEmits(['chatRoomChanged'])
 
 // 响应式数据
 const activited = ref(props.activeIndex)
@@ -47,7 +47,7 @@ const activited = ref(props.activeIndex)
 // 点击处理函数
 const handleItemClick = (index, item) => {
   activited.value = index
-  emits('itemClick', index, item)
+  emits('chatRoomChanged', item)
 }
 
 // 样式计算函数

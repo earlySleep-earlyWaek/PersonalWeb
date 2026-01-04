@@ -11,7 +11,7 @@
       label-position="left"
       label-width="80px"
     >
-      <el-form-item prop="userName" label="昵称">
+      <el-form-item prop="username" label="昵称">
         <el-input v-model="params.username" clearable />
       </el-form-item>
       <el-form-item prop="account" label="账号">
@@ -90,7 +90,7 @@ const config = reactive({
         required: true,
         message: '请输入昵称',
         trigger: 'blur',
-        whitespace: true, // 禁止纯空格
+        whitespace: false, // 允许空格
       },
       {
         min: 2,
@@ -99,8 +99,8 @@ const config = reactive({
         trigger: 'blur',
       },
       {
-        pattern: /^[^\s]+$/, // 不能包含空格
-        message: '昵称不能包含空格',
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_\-\s]+$/, // 允许中文、英文、数字、下划线、连字符和空格
+        message: '昵称只能包含中文、英文、数字、下划线、连字符和空格',
         trigger: 'blur',
       },
     ],

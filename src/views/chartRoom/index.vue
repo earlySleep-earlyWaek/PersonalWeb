@@ -56,17 +56,17 @@ const config = reactive({
   async login() {
     const userStore = useUserStore()
 
-    console.log(userStore.userInfo?.username, userStore.userInfo?.nickname)
-
-    try {
-      // 使用 Pinia store 进行登录
-      await userStore.login(params.value.account, params.value.password)
-      ElMessage.success('登录成功👋')
-      router.push('/home/chart-room/message')
-    } catch (error) {
-      console.error('登录失败:', error)
-      ElMessage.error('登录失败，请检查账号密码')
-    }
+    // 使用 Pinia store 进行登录
+    userStore
+      .login(params.value.account, params.value.password)
+      .then(() => {
+        ElMessage.success('登录成功👋')
+        router.push('/home/chart-room/message')
+      })
+      .catch((error) => {
+        console.error('登录失败:', error)
+        ElMessage.error('登录失败，请检查账号密码')
+      })
   },
 })
 </script>

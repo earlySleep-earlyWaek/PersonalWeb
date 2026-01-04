@@ -9,35 +9,41 @@ export const useUserStore = defineStore(
     // 用户状态
     const token = ref<string | null>(localStorage.getItem('token'))
     const isAuthenticated = computed(() => !!token.value)
-    const userInfo = ref<any>(null)
+    const userInfo = ref<{ username: string; nickname: string }>({ username: '', nickname: '' })
 
     // 登录
     const login = async (usernameInput: string, password: string) => {
       try {
-        const response: any = await Request.post('/api/users/login', {
+        const response = await Request.post('/api/users/login', {
           username: usernameInput,
           password,
         })
 
-        // 假设后端返回 token
-        if (response.token) {
-          token.value = response.token
-          localStorage.setItem('token', response.token)
+        console.log(response)
+        console.log(response.data.token)
 
-          // 设置用户信息
-          userInfo.value = {
-            username: response.username,
-            nickname: response.nickname,
-            ...response.userInfo, // 合并其他用户信息
-          }
-          localStorage.setItem('username', response.username)
-          localStorage.setItem('nickname', response.nickname)
+        // 假设后端返回 token 和用户信息
+        token.value = response.data.token
+        localStorage.setItem('token', response.data.token)
+
+        // 设置用户信息
+        userInfo.value = {
+          username: response.data.username,
+          nickname: response.data.nickname,
         }
+        localStorage.setItem('username', response.data.username)
+        localStorage.setItem('nickname', response.data.nickname)
+
+        console.log(userInfo.value)
 
         return response
       } catch (error) {
         throw error
       }
+    }
+
+    const getUserInfo = () => {
+      return userInfo.value
     }
 
     // 登出
@@ -124,5 +130,5 @@ export const useUserStore = defineStore(
       storage: localStorage,
       paths: ['token'],
     },
-  },
+  } as any,
 )
