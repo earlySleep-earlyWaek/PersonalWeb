@@ -12,7 +12,7 @@
       label-width="80px"
     >
       <el-form-item prop="userName" label="昵称">
-        <el-input v-model="params.userName" clearable />
+        <el-input v-model="params.username" clearable />
       </el-form-item>
       <el-form-item prop="account" label="账号">
         <el-input v-model="params.account" clearable />
@@ -213,7 +213,7 @@ const handleSubmit = async () => {
     // 执行注册逻辑
     const userData = {
       username: params.account,
-      nickname: params.userName,
+      nickname: params.username,
       password: params.password,
     }
 

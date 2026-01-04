@@ -65,7 +65,7 @@ const config = reactive({
   width: 100vw;
   height: 100%;
 
-  background-color: green;
+  background-color: gray;
 
   display: flex;
 }
