@@ -1,5 +1,6 @@
 import { TestConfig } from '@/views/test/config'
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -112,6 +113,20 @@ const router = createRouter({
       component: () => import('@/views/login.vue'),
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  // 检查是否访问的是 /home/chart-room/message 页面
+  if (to.path === '/home/chart-room/message' || to.path === '/home/chart-room/user') {
+    const userStore = useUserStore()
+    // 如果用户未登录，跳转到 /home/chart-room-index 页面
+    if (!userStore.isAuthenticated) {
+      next('/home/chart-room-index')
+      return
+    }
+  }
+  // 继续导航
+  next()
 })
 
 export default router
