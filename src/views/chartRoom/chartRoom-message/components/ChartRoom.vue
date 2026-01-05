@@ -5,7 +5,7 @@
   </div>
   <div class="flex-1 flex-wrap">
     <!-- 消息显示区域 -->
-    <el-scrollbar>
+    <el-scrollbar ref="scrollbarRef" class="scrollbar">
       <div class="message-container">
         <div v-for="(item, index) in messages" :key="index" class="w-full h-fit flex gap-10px">
           <!-- 消息卡片 -->
@@ -20,6 +20,7 @@
             :avatar="testImage"
           />
         </div>
+        <div class="h-20px"></div>
       </div>
     </el-scrollbar>
 
@@ -43,10 +44,12 @@
 // 导入依赖
 import { Picture, Folder } from '@element-plus/icons-vue'
 import ChatCard from './ChatCard.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, nextTick } from 'vue'
 import { chatHistoryApi, ChatMessage } from '@/api/chart-room'
 import { testImage } from '../../config'
 import { useUserStore } from '@/stores/user'
+import { ElMessage } from 'element-plus'
+import { WebSocketService, defaultConfig } from '@/utils/websocket'
 
 // 初始化用户存储
 const userStore = useUserStore()
@@ -82,12 +85,24 @@ const emit = defineEmits<Emits>()
 // 响应式数据
 const input = ref('')
 const messages = ref<ChatMessage[]>([])
+const scrollbarRef = ref()
 
-// 发送消息处理函数
-const handleSend = () => {
-  if (input.value.trim()) {
-    emit('send-message', input.value)
-    input.value = '' // 发送后清空输入框
+// WebSocket相关
+const webSocketService = ref<WebSocketService | null>(null)
+const isConnected = ref(false)
+
+// 发送消息处理函数 - 已在下方重写
+
+// 自动滚动到底部
+const scrollToBottom = () => {
+  if (scrollbarRef.value) {
+    // 使用nextTick确保DOM更新后再滚动
+    nextTick(() => {
+      const scrollElement = scrollbarRef.value.$el.querySelector('.el-scrollbar__wrap')
+      if (scrollElement) {
+        scrollElement.scrollTop = scrollElement.scrollHeight
+      }
+    })
   }
 }
 
@@ -96,15 +111,91 @@ const getMessages = async () => {
   try {
     const res = await chatHistoryApi.getChatHistoryByRoom(props.roomInfo.id)
     messages.value = res || []
+    // 获取历史消息后滚动到底部
+    nextTick(() => scrollToBottom())
   } catch (error) {
     console.error('获取历史消息失败:', error)
     messages.value = []
   }
 }
 
-// 组件挂载后获取消息
+// 连接WebSocket
+const connectWebSocket = () => {
+  console.log('正在连接WebSocket...')
+
+  try {
+    // 创建WebSocket服务实例
+    const config = { ...defaultConfig, url: 'http://localhost:8080/ws' }
+    webSocketService.value = new WebSocketService(config)
+
+    // 连接WebSocket
+    webSocketService.value.connect(
+      () => {
+        // 连接成功回调
+        console.log('STOMP连接已建立')
+        isConnected.value = true
+
+        // 订阅聊天室消息 - 修正订阅路径以匹配后端配置
+        webSocketService.value?.subscribe(`/topic/room/${props.roomInfo.id}`, (receivedMessage) => {
+          messages.value.push(receivedMessage)
+          nextTick(() => scrollToBottom())
+        })
+
+        // 发送加入房间消息 - 修正消息格式以匹配后端期望
+        const joinMessage = {
+          sender: userStore.userInfo.username,
+          content: props.roomInfo.id.toString(), // content字段应包含房间ID
+          type: 'JOIN',
+        }
+        webSocketService.value?.send('/app/chat.addUser', joinMessage)
+      },
+      undefined, // onMessage回调
+      (error) => {
+        // 错误回调
+        console.error('WebSocket连接错误:', error)
+        ElMessage.error('聊天室连接错误')
+      },
+    )
+  } catch (error) {
+    console.error('WebSocket连接失败:', error)
+    ElMessage.error('聊天室连接失败')
+  }
+}
+
+// 发送消息到WebSocket
+const sendMessage = (content: string) => {
+  if (webSocketService.value && isConnected.value) {
+    const message = {
+      sender: userStore.userInfo.username,
+      content: content,
+      type: 'CHAT',
+    }
+
+    webSocketService.value.send('/app/chat.sendMessage', message)
+  }
+}
+
+// 发送消息处理函数
+const handleSend = () => {
+  if (input.value.trim()) {
+    sendMessage(input.value)
+    input.value = '' // 发送后清空输入框
+    nextTick(() => scrollToBottom())
+  }
+}
+
+// 组件挂载后获取消息并连接WebSocket
 onMounted(() => {
   getMessages()
+  connectWebSocket()
+})
+
+// 组件卸载前断开WebSocket连接
+onUnmounted(() => {
+  if (webSocketService.value) {
+    webSocketService.value.disconnect()
+    console.log('STOMP连接已断开')
+  }
 })
 </script>
 
@@ -127,16 +218,19 @@ onMounted(() => {
   }
 }
 
-.message-container {
-  height: calc(100vh - 280px);
-  padding-left: 20px;
-  padding-right: 20px;
-  border-radius: 10px;
+.scrollbar {
   box-shadow:
     -8px 0 8px -8px rgba(0, 0, 0, 1) inset,
     8px 0 8px -8px rgba(0, 0, 0, 1) inset,
     0 -8px 8px -8px rgba(0, 0, 0, 1) inset,
     0 8px 8px -8px rgba(0, 0, 0, 1) inset;
+}
+
+.message-container {
+  height: calc(100vh - 280px);
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 10px;
 }
 
 .messageScroll {

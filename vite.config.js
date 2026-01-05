@@ -15,6 +15,9 @@ const variablesPath = fileURLToPath(
 ).replace(/\\/g, '/')
 
 export default defineConfig({
+  define: {
+    global: 'globalThis',
+  },
   plugins: [vue(), vueJsx(), vueDevTools(), UnoCSS()],
   resolve: {
     alias: {
