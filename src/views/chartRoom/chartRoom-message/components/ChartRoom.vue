@@ -96,9 +96,6 @@ const getMessages = async () => {
   try {
     const res = await chatHistoryApi.getChatHistoryByRoom(props.roomInfo.id)
     messages.value = res || []
-
-    // console.log('历史消息:', messages.value)
-    // console.log('房间信息:', props.roomInfo)
   } catch (error) {
     console.error('获取历史消息失败:', error)
     messages.value = []
@@ -108,7 +105,6 @@ const getMessages = async () => {
 // 组件挂载后获取消息
 onMounted(() => {
   getMessages()
-  console.log(props.roomInfo)
 })
 </script>
 
@@ -232,6 +228,25 @@ textarea {
   box-sizing: border-box;
 
   font-family: 'SimHei', 'Microsoft YaHei', 'Heiti SC', '黑体', sans-serif;
+
+  /* 自定义滚动条样式 */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #3a3a3a;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #5a5a5a;
+    border-radius: 3px;
+
+    &:hover {
+      background: #7a7a7a;
+    }
+  }
 }
 
 .inputButton {

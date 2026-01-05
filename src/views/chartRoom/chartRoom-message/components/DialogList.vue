@@ -34,7 +34,6 @@ const rooms = ref([])
 const getRooms = async () => {
   const res = await chatRoomApi.getRoomsByUserId(userStore.userInfo.userId)
   rooms.value = res.data
-  console.log(res)
 }
 
 onMounted(() => getRooms())
