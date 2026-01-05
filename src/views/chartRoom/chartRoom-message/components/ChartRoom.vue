@@ -6,7 +6,7 @@
   <div class="flex-1 flex-wrap">
     <!-- 消息显示区域 -->
     <el-scrollbar>
-      <div class="h-[calc(100vh-300px)] pl-20px pr-20px">
+      <div class="message-container">
         <div v-for="(item, index) in messages" :key="index" class="w-full h-fit flex gap-10px">
           <!-- 消息卡片 -->
           <ChatCard
@@ -29,7 +29,7 @@
         <el-icon class="inputToolBarItem"><Picture /></el-icon>
         <el-icon class="inputToolBarItem"><Folder /></el-icon>
       </div>
-      <div class="flex-1">
+      <div class="inputMain">
         <textarea v-model="input" :autofocus="false" />
       </div>
       <div class="inputButton">
@@ -117,7 +117,7 @@ onMounted(() => {
   padding: 16px 20px;
   background-color: #303030;
   color: white;
-  border-bottom: 1px solid #88888850;
+  position: relative;
 
   .room-name {
     font-size: 18px;
@@ -129,6 +129,18 @@ onMounted(() => {
     font-size: 12px;
     color: #aaa;
   }
+}
+
+.message-container {
+  height: calc(100vh - 280px);
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 10px;
+  box-shadow:
+    -8px 0 8px -8px rgba(0, 0, 0, 1) inset,
+    8px 0 8px -8px rgba(0, 0, 0, 1) inset,
+    0 -8px 8px -8px rgba(0, 0, 0, 1) inset,
+    0 8px 8px -8px rgba(0, 0, 0, 1) inset;
 }
 
 .messageScroll {
@@ -166,15 +178,21 @@ onMounted(() => {
 }
 
 .inputArea {
-  //w-full h-300px
   width: 100%;
-  height: 300px;
   background-color: #303030;
-
-  border-top: 1px solid #88888850;
-
   display: flex;
   flex-direction: column;
+}
+
+.inputMain {
+  flex: 1;
+  display: flex;
+  min-height: 0; /* 确保flex子项可以收缩 */
+
+  > textarea {
+    flex: 1;
+    resize: none;
+  }
 }
 
 .inputToolBar {
