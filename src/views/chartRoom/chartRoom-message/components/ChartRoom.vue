@@ -91,8 +91,6 @@ const scrollbarRef = ref()
 const webSocketService = ref<WebSocketService | null>(null)
 const isConnected = ref(false)
 
-// 发送消息处理函数 - 已在下方重写
-
 // 自动滚动到底部
 const scrollToBottom = () => {
   if (scrollbarRef.value) {
@@ -121,18 +119,18 @@ const getMessages = async () => {
 
 // 连接WebSocket
 const connectWebSocket = () => {
-  console.log('正在连接WebSocket...')
+  // console.log('正在连接WebSocket...')
 
   try {
     // 创建WebSocket服务实例
-    const config = { ...defaultConfig, url: 'http://localhost:8080/ws' }
+    const config = { ...defaultConfig }
     webSocketService.value = new WebSocketService(config)
 
     // 连接WebSocket
     webSocketService.value.connect(
       () => {
         // 连接成功回调
-        console.log('STOMP连接已建立')
+        // console.log('STOMP连接已建立')
         isConnected.value = true
 
         // 订阅聊天室消息 - 修正订阅路径以匹配后端配置
@@ -152,12 +150,12 @@ const connectWebSocket = () => {
       undefined, // onMessage回调
       (error) => {
         // 错误回调
-        console.error('WebSocket连接错误:', error)
+        // console.error('WebSocket连接错误:', error)
         ElMessage.error('聊天室连接错误')
       },
     )
   } catch (error) {
-    console.error('WebSocket连接失败:', error)
+    // console.error('WebSocket连接失败:', error)
     ElMessage.error('聊天室连接失败')
   }
 }
@@ -194,7 +192,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (webSocketService.value) {
     webSocketService.value.disconnect()
-    console.log('STOMP连接已断开')
+    // console.log('STOMP连接已断开')
   }
 })
 </script>
@@ -314,7 +312,7 @@ textarea {
   border: none;
   padding: 10px;
 
-  font-size: 22px;
+  font-size: 18px;
   color: #fff;
 
   resize: none;

@@ -27,34 +27,34 @@ class WebSocketService {
       this.client = new Client({
         webSocketFactory: () => socket,
         debug: (str) => {
-          console.log('STOMP调试信息:', str)
+          //   console.log('STOMP调试信息:', str)
         },
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
         onConnect: () => {
-          console.log('STOMP连接已建立')
+          //   console.log('STOMP连接已建立')
           this.isConnected = true
           onConnect?.()
         },
         onStompError: (frame) => {
-          console.error('STOMP错误:', frame.headers['message'])
-          console.error('STOMP详细错误:', frame.body)
+          //   console.error('STOMP错误:', frame.headers['message'])
+          //   console.error('STOMP详细错误:', frame.body)
           onError?.(frame)
         },
         onWebSocketError: (error) => {
-          console.error('WebSocket连接错误:', error)
+          //   console.error('WebSocket连接错误:', error)
           onError?.(error)
         },
         onDisconnect: () => {
-          console.log('STOMP连接已断开')
+          //   console.log('STOMP连接已断开')
           this.isConnected = false
         },
       })
 
       this.client.activate()
     } catch (error) {
-      console.error('WebSocket连接失败:', error)
+      //   console.error('WebSocket连接失败:', error)
       onError?.(error)
     }
   }
@@ -73,8 +73,8 @@ class WebSocketService {
           const parsedMessage = JSON.parse(message.body)
           callback(parsedMessage)
         } catch (error) {
-          console.error('解析WebSocket消息失败:', error)
-          console.error('原始消息内容:', message.body)
+          //   console.error('解析WebSocket消息失败:', error)
+          //   console.error('原始消息内容:', message.body)
         }
       })
     }
