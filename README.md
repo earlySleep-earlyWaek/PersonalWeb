@@ -101,6 +101,10 @@ npm run build
   <img width="600" alt="B站仿制版截图" src="https://github.com/user-attachments/assets/697d1674-45a7-49f9-945d-03f9ed3fcb4d" />
 </div>
 
+
+### 即时聊天(开发中)
+<img width="1857" height="924" alt="e93feb1c-fe9b-4b8e-9fb4-4e4737a9bc14" src="https://github.com/user-attachments/assets/9cb1b67c-b092-4d84-b9d6-1a811fcd2d8b" />
+
 ## 项目结构
 
 ```
@@ -120,6 +124,5 @@ src/
 
 本项目仅供学习交流使用。
 
-# 即时聊天(开发中)
 
-<img width="1847" height="920" alt="image" src="https://github.com/user-attachments/assets/e99a30c5-a329-49ac-99d0-c1560c6224a0" />
+
