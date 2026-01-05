@@ -1,61 +1,61 @@
-const image = '/images/logo.png'
+export const testImage = '/images/logo.png'
 
 export const ChartRoomMessage = {
   userInfo: {
     userName: 'wang',
     account: '',
-    acatar: image,
+    acatar: testImage,
   },
   messageRoomList: [
     {
       name: 'gamers',
-      avatar: image,
+      avatar: testImage,
       message: '又到了上海',
       id: 1,
     },
     {
       name: '相亲相爱一家人',
-      avatar: image,
+      avatar: testImage,
       message: '下来吃饭',
       id: 2,
     },
     {
       name: '111111',
-      avatar: image,
+      avatar: testImage,
       message: '🥰',
       id: 3,
     },
     {
       name: '壮壮',
-      avatar: image,
+      avatar: testImage,
       message: '在吗',
       id: 4,
     },
     {
       name: '牛爷爷',
-      avatar: image,
+      avatar: testImage,
       message: '图图~',
       id: 5,
     },
   ],
   roomMessages: [
     {
-      avatar: image,
+      avatar: testImage,
       name: 'wang_who',
       message: '你好👋',
     },
     {
-      avatar: image,
+      avatar: testImage,
       name: '111111',
       message: '收到👌',
     },
     {
-      avatar: image,
+      avatar: testImage,
       name: '111111',
       message: '?',
     },
     {
-      avatar: image,
+      avatar: testImage,
       name: 'wang_who',
       message: '🥰',
     },

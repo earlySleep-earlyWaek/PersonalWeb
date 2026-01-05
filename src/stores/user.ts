@@ -9,7 +9,11 @@ export const useUserStore = defineStore(
     // 用户状态
     const token = ref<string | null>(localStorage.getItem('token'))
     const isAuthenticated = computed(() => !!token.value)
-    const userInfo = ref<{ username: string; nickname: string }>({ username: '', nickname: '' })
+    const userInfo = ref<{ userId: number; username: string; nickname: string }>({
+      userId: 0,
+      username: '',
+      nickname: '',
+    })
 
     // 登录
     const login = async (usernameInput: string, password: string) => {
@@ -20,7 +24,6 @@ export const useUserStore = defineStore(
         })
 
         console.log(response)
-        console.log(response.data.token)
 
         // 假设后端返回 token 和用户信息
         token.value = response.data.token
@@ -28,9 +31,11 @@ export const useUserStore = defineStore(
 
         // 设置用户信息
         userInfo.value = {
+          userId: response.data.userId,
           username: response.data.username,
           nickname: response.data.nickname,
         }
+        localStorage.setItem('userId', response.data.userId)
         localStorage.setItem('username', response.data.username)
         localStorage.setItem('nickname', response.data.nickname)
 
@@ -58,6 +63,7 @@ export const useUserStore = defineStore(
     // 自动登录（从本地存储恢复状态）
     const autoLogin = () => {
       const storedToken = localStorage.getItem('token')
+      const storedUserId = localStorage.getItem('userId')
       const storedUsername = localStorage.getItem('username')
       const storedNickname = localStorage.getItem('nickname')
 
@@ -67,6 +73,7 @@ export const useUserStore = defineStore(
         // 恢复用户信息
         if (storedUsername || storedNickname) {
           userInfo.value = {
+            userId: Number(storedUserId),
             username: storedUsername,
             nickname: storedNickname,
           }

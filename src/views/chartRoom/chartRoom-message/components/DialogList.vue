@@ -3,19 +3,19 @@
     <div class="w-350px h-full flex flex-wrap">
       <div
         class="messageRoom"
-        v-for="(item, index) in messageRoomList"
-        :key="item.id"
+        v-for="(item, index) in rooms"
+        :key="index + 'a'"
         @click="handleItemClick(index, item)"
         :style="activitedStyle(index)"
       >
-        <el-avatar :size="50" :src="item.avatar" />
+        <el-avatar :size="50" :src="testImage" />
 
         <div class="flex-1 h-full">
           <div class="h-50% messageRoomTitle">
-            {{ item.name }}
+            {{ item.otherUser.nickname }}
           </div>
           <div class="h-50% messageRoomText">
-            {{ item.message }}
+            {{ item.lastMessage }}
           </div>
         </div>
       </div>
@@ -24,25 +24,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { chatRoomApi } from '@/api/chart-room'
+import { useUserStore } from '@/stores/user'
+import { onMounted, ref } from 'vue'
+import { testImage } from '../../config'
+const userStore = useUserStore()
 
-// 定义 props
-const props = defineProps({
-  messageRoomList: {
-    type: Array,
-    default: () => [],
-  },
-  activeIndex: {
-    type: Number,
-    default: null,
-  },
-})
+const rooms = ref([])
+const getRooms = async () => {
+  const res = await chatRoomApi.getRoomsByUserId(userStore.userInfo.userId)
+  rooms.value = res.data
+  console.log(res)
+}
+
+onMounted(() => getRooms())
 
 // 定义 emits
 const emits = defineEmits(['chatRoomChanged'])
 
 // 响应式数据
-const activited = ref(props.activeIndex)
+const activited = ref(-1)
 
 // 点击处理函数
 const handleItemClick = (index, item) => {

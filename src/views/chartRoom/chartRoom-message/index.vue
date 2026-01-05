@@ -1,10 +1,9 @@
 <template>
   <DialogList
     @chat-room-changed="handleChatRoomChanged"
-    :messageRoomList="ChartRoomMessage.messageRoomList"
   />
-  <div v-if="activedChartInfo.id != -1" class="flex-1 flex-wrap bg-#303030">
-    <ChartRoom :current-user="userInfo.name" :roomMessages="ChartRoomMessage.roomMessages" />
+  <div v-if="activedRoomInfo.id != -1" class="flex-1 flex-wrap bg-#303030">
+    <ChartRoom :room-info="activedRoomInfo" />
   </div>
 
   <div v-else class="flex-1 flex justify-center items-center bg-#303030">
@@ -17,32 +16,23 @@ import { ChartRoomMessage } from '../config'
 import DialogList from './components/DialogList.vue'
 import ChartRoom from './components/ChartRoom.vue'
 import { ref } from 'vue'
-import { useUserStore } from '@/stores/user'
-
-const userStore = useUserStore()
-
-const userInfo = ref<any>({
-  name: userStore.userInfo.username,
-})
 
 interface chatRoom {
   id: number
-  name: string
-  avatar: string
+  roomName: string
+  otherUser: any
 }
 
-const activedChartInfo = ref<chatRoom>({
+const activedRoomInfo = ref<chatRoom>({
   id: -1,
-  name: '',
-  avatar: '',
+  roomName: '',
+  otherUser: {},
 })
 
 const handleChatRoomChanged = (room: any) => {
-  activedChartInfo.value = {
-    id: room.id,
-    name: room.name,
-    avatar: room.avatar,
-  }
+  activedRoomInfo.value.id = room.id
+  activedRoomInfo.value.roomName = room.roomName
+  activedRoomInfo.value.otherUser = room.otherUser
 }
 </script>
 

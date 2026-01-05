@@ -1,67 +1,113 @@
 <template>
   <div class="flex-1 flex-wrap">
+    <!-- 消息显示区域 -->
     <el-scrollbar>
       <div class="h-[calc(100vh-300px)] pl-20px pr-20px">
-        <div v-for="(item, index) in roomMessages" :key="index" class="w-full h-fit flex gap-10px">
-          <ChartRightCard
-            v-if="item.name === currentUser"
-            :user-name="item.name"
-            :avatar="item.avatar"
-            :message="item.message"
+        <div v-for="(item, index) in messages" :key="index" class="w-full h-fit flex gap-10px">
+          <!-- 对方消息 -->
+          <ChartLeftCard
+            v-if="item.sender === roomInfo.otherUser.username"
+            :user-name="roomInfo.otherUser.nikename"
+            :avatar="testImage"
+            :message="item.content"
           />
 
-          <ChartLeftCard
+          <!-- 自己消息 -->
+          <ChartRightCard
             v-else
-            :user-name="item.name"
-            :avatar="item.avatar"
-            :message="item.message"
+            :user-name="userStore.userInfo.username"
+            :avatar="testImage"
+            :message="item.content"
           />
         </div>
       </div>
     </el-scrollbar>
 
+    <!-- 输入区域 -->
     <div class="inputArea">
       <div class="inputToolBar">
         <el-icon class="inputToolBarItem"><Picture /></el-icon>
         <el-icon class="inputToolBarItem"><Folder /></el-icon>
       </div>
       <div class="flex-1">
-        <textarea v-model="inputText" :autofocus="false" />
+        <textarea v-model="input" :autofocus="false" />
       </div>
       <div class="inputButton">
-        <el-button @click="handleSend" size="small" type="primary"> 发送</el-button>
+        <el-button @click="handleSend" size="small" type="primary"> 发送 </el-button>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+// 导入依赖
 import { Picture, Folder } from '@element-plus/icons-vue'
 import ChartRightCard from './ChartRightCard.vue'
 import ChartLeftCard from './ChartLeftCard.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { chatHistoryApi, ChatMessage } from '@/api/chart-room'
+import { testImage } from '../../config'
+import { useUserStore } from '@/stores/user'
+
+// 初始化用户存储
+const userStore = useUserStore()
 
 // 定义 props
-const props = defineProps({
-  roomMessages: {
-    type: Array,
-    default: () => [],
-  },
-  currentUser: {
-    type: String,
-    default: '',
-  },
+interface Props {
+  roomInfo: {
+    id: number
+    otherUser?: {
+      username: string
+      nikename: string
+    }
+  }
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  roomInfo: () => ({
+    id: 0,
+    otherUser: undefined,
+  }),
 })
 
-const inputText = ref('')
-
 // 定义 emits
-const emits = defineEmits(['send-message', 'update:inputText'])
+interface Emits {
+  (e: 'send-message'): void
+  (e: 'update:inputText', value: string): void
+}
+
+const emit = defineEmits<Emits>()
+
+// 响应式数据
+const input = ref('')
+const messages = ref<ChatMessage[]>([])
 
 // 发送消息处理函数
 const handleSend = () => {
-  emits('send-message', props.inputText)
+  if (input.value.trim()) {
+    emit('send-message', input.value)
+    input.value = '' // 发送后清空输入框
+  }
 }
+
+// 获取历史消息
+const getMessages = async () => {
+  try {
+    const res = await chatHistoryApi.getChatHistoryByRoom(props.roomInfo.id)
+    messages.value = res || []
+
+    console.log('历史消息:', messages.value)
+    console.log('房间信息:', props.roomInfo)
+  } catch (error) {
+    console.error('获取历史消息失败:', error)
+    messages.value = []
+  }
+}
+
+// 组件挂载后获取消息
+onMounted(() => {
+  getMessages()
+})
 </script>
 
 <style lang="scss" scoped>
