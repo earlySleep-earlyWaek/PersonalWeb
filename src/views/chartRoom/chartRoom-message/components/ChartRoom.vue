@@ -1,4 +1,8 @@
 <template>
+  <div class="room-header">
+    <div class="room-name">{{ roomInfo.roomName }}</div>
+    <div class="room-info">最后的消息: {{ roomInfo.lastMessageTime }}</div>
+  </div>
   <div class="flex-1 flex-wrap">
     <!-- 消息显示区域 -->
     <el-scrollbar>
@@ -51,6 +55,8 @@ const userStore = useUserStore()
 interface Props {
   roomInfo: {
     id: number
+    roomName: string
+    lastMessageTime: string
     otherUser?: {
       username: string
       nikename: string
@@ -107,6 +113,24 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.room-header {
+  padding: 16px 20px;
+  background-color: #303030;
+  color: white;
+  border-bottom: 1px solid #88888850;
+
+  .room-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .room-info {
+    font-size: 12px;
+    color: #aaa;
+  }
+}
+
 .messageScroll {
   display: flex;
   flex-wrap: wrap;

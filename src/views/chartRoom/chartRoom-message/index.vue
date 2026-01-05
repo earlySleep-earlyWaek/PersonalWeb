@@ -18,19 +18,21 @@ interface chatRoom {
   id: number
   roomName: string
   otherUser: any
+  lastMessageTime: string
 }
 
 const activedRoomInfo = ref<chatRoom>({
   id: -1,
   roomName: '',
   otherUser: {},
+  lastMessageTime: '',
 })
 
 const handleChatRoomChanged = (room: any) => {
   activedRoomInfo.value.id = room.id
   activedRoomInfo.value.roomName = room.roomName
   activedRoomInfo.value.otherUser = room.otherUser
-  console.log(activedRoomInfo.value)
+  activedRoomInfo.value.lastMessageTime = room.lastMessageTime
 }
 </script>
 
