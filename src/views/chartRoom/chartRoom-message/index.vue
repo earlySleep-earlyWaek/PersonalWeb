@@ -1,7 +1,5 @@
 <template>
-  <DialogList
-    @chat-room-changed="handleChatRoomChanged"
-  />
+  <DialogList @chat-room-changed="handleChatRoomChanged" />
   <div v-if="activedRoomInfo.id != -1" class="flex-1 flex-wrap bg-#303030">
     <ChartRoom :room-info="activedRoomInfo" />
   </div>
@@ -12,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ChartRoomMessage } from '../config'
 import DialogList from './components/DialogList.vue'
 import ChartRoom from './components/ChartRoom.vue'
 import { ref } from 'vue'
@@ -33,6 +30,7 @@ const handleChatRoomChanged = (room: any) => {
   activedRoomInfo.value.id = room.id
   activedRoomInfo.value.roomName = room.roomName
   activedRoomInfo.value.otherUser = room.otherUser
+  console.log(activedRoomInfo.value)
 }
 </script>
 

@@ -4,20 +4,16 @@
     <el-scrollbar>
       <div class="h-[calc(100vh-300px)] pl-20px pr-20px">
         <div v-for="(item, index) in messages" :key="index" class="w-full h-fit flex gap-10px">
-          <!-- 对方消息 -->
-          <ChartLeftCard
-            v-if="item.sender === roomInfo.otherUser.username"
-            :user-name="roomInfo.otherUser.nikename"
+          <!-- 消息卡片 -->
+          <ChatCard
+            :message="item"
+            :is-own="item.sender === userStore.userInfo.username"
+            :user-name="
+              item.sender === userStore.userInfo.username
+                ? userStore.userInfo.nickname
+                : roomInfo.otherUser?.nickname
+            "
             :avatar="testImage"
-            :message="item.content"
-          />
-
-          <!-- 自己消息 -->
-          <ChartRightCard
-            v-else
-            :user-name="userStore.userInfo.username"
-            :avatar="testImage"
-            :message="item.content"
           />
         </div>
       </div>
@@ -42,8 +38,7 @@
 <script setup lang="ts">
 // 导入依赖
 import { Picture, Folder } from '@element-plus/icons-vue'
-import ChartRightCard from './ChartRightCard.vue'
-import ChartLeftCard from './ChartLeftCard.vue'
+import ChatCard from './ChatCard.vue'
 import { onMounted, ref } from 'vue'
 import { chatHistoryApi, ChatMessage } from '@/api/chart-room'
 import { testImage } from '../../config'
@@ -96,8 +91,8 @@ const getMessages = async () => {
     const res = await chatHistoryApi.getChatHistoryByRoom(props.roomInfo.id)
     messages.value = res || []
 
-    console.log('历史消息:', messages.value)
-    console.log('房间信息:', props.roomInfo)
+    // console.log('历史消息:', messages.value)
+    // console.log('房间信息:', props.roomInfo)
   } catch (error) {
     console.error('获取历史消息失败:', error)
     messages.value = []
@@ -107,6 +102,7 @@ const getMessages = async () => {
 // 组件挂载后获取消息
 onMounted(() => {
   getMessages()
+  console.log(props.roomInfo)
 })
 </script>
 
